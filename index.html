@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Judge Panel for Submitting Marks" />
+  <title>Judge Panel - Marks Submission</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link rel="shortcut icon" href="./Logo Hifz Dawa Fest.jpg" type="image/x-icon">
+
+  <style>
+    :root {
+      --primary: #1e40af; /* Deep blue */
+      --success: #166534; /* Rich green */
+      --danger: #991b1b; /* Deep red */
+      --light: #f9fafb; /* Soft gray */
+      --dark: #1f2937; /* Slate gray */
+      --accent: #9333ea; /* Vibrant purple */
+      --spacing-unit: 1.5rem;
+      --border-radius: 10px;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, var(--light), #ffffff);
+      color: var(--dark);
+      min-height: 100vh;
+      padding: var(--spacing-unit);
+      line-height: 1.6;
+    }
+
+    /* Header & Panels */
+    .header-panel {
+      background: linear-gradient(90deg, var(--primary), #3b82f6);
+      color: white;
+      padding: calc(var(--spacing-unit) * 0.75);
+      border-radius: var(--border-radius) var(--border-radius) 0 0;
+      margin-bottom: var(--spacing-unit);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    }
+    .header-panel h1, .header-panel h2 {
+      font-weight: 700;
+      margin: 0;
+    }
+    .header-panel h1 { font-size: 1.75rem; }
+    .header-panel h2 { font-size: 1.25rem; }
+
+    .card-modern {
+      border: none;
+      border-radius: var(--border-radius);
+      box-shadow: 0 6px 25px rgba(0, 0, 0, 0.08);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .card-modern:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+    }
+    .card-modern .card-body {
+      padding: var(--spacing-unit);
+    }
+
+    /* Forms */
+    .form-label {
+      font-weight: 500;
+      color: var(--dark);
+      margin-bottom: 0.5rem;
+    }
+    .form-control {
+      border-radius: 8px;
+      border-color: #d1d5db;
+      padding: 0.75rem;
+      font-size: 1rem;
+      min-height: 50px;
+      transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+    .form-control:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 10px rgba(147, 51, 234, 0.2);
+      outline: none;
+    }
+    .form-text {
+      font-size: 0.875rem;
+      color: #6b7280;
+    }
+
+    /* Buttons */
+    .btn-modern {
+      border-radius: 8px;
+      padding: 0.75rem 1.5rem;
+      font-weight: 500;
+      min-width: 120px;
+      transition: background-color 0.3s ease, transform 0.2s ease;
+    }
+    .btn-modern:hover {
+      transform: translateY(-2px);
+    }
+    .btn-primary {
+      background-color: var(--accent);
+      color: white;
+    }
+    .btn-primary:hover {
+      background-color: #7e22ce;
+    }
+    .btn-danger {
+      background-color: var(--danger);
+      color: white;
+    }
+    .btn-danger:hover {
+      background-color: #7f1d1d;
+    }
+    .btn:disabled {
+      background-color: #e0e7ff;
+      opacity: 0.7;
+      cursor: not-allowed;
+    }
+
+    /* Table */
+    .table-modern {
+      border-radius: var(--border-radius);
+      overflow: hidden;
+      background-color: white;
+    }
+    .table-modern thead th {
+      background: linear-gradient(90deg, var(--primary), #3b82f6);
+      color: white;
+      font-weight: 600;
+      position: sticky;
+      top: 0;
+      z-index: 1;
+      border: none;
+      padding: 0.75rem 1rem;
+    }
+    .table-modern tbody tr {
+      transition: background-color 0.3s ease;
+    }
+    .table-modern tbody tr:nth-child(odd) {
+      background-color: #f9fafb;
+    }
+    .table-modern tbody tr:hover {
+      background-color: #eef2ff;
+    }
+    .table-modern td {
+      vertical-align: middle;
+      padding: 1rem;
+    }
+    .table-modern input {
+      border-radius: 6px;
+      padding: 0.5rem;
+      font-size: 1rem;
+      width: 100%;
+      max-width: 100px;
+      text-align: center;
+    }
+    .badge {
+      font-size: 0.875rem;
+      padding: 0.25rem 0.75rem;
+      border-radius: 12px;
+      font-weight: 500;
+    }
+    .badge-success {
+      background-color: var(--success);
+      color: white;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .header-panel h1 { font-size: 1.5rem; }
+      .header-panel h2 { font-size: 1.1rem; }
+      .card-modern {
+        margin-bottom: var(--spacing-unit);
+      }
+      .table-modern thead {
+        display: none;
+      }
+      .table-modern tbody tr {
+        display: block;
+        margin-bottom: var(--spacing-unit);
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+        border-radius: var(--border-radius);
+      }
+      .table-modern tbody td {
+        display: flex;
+        justify-content: space-between;
+        padding: calc(var(--spacing-unit) * 0.5);
+        border-bottom: 1px solid #e5e7eb;
+        align-items: center;
+      }
+      .table-modern tbody td:last-child {
+        border-bottom: none;
+      }
+      .table-modern tbody td::before {
+        content: attr(data-label);
+        font-weight: 500;
+        color: #6b7280;
+        min-width: 120px;
+        margin-right: 1rem;
+      }
+      .btn-modern {
+        width: 100%;
+        margin-bottom: 0.5rem;
+      }
+      .table-modern input {
+        max-width: 80px;
+      }
+    }
+
+    /* Accessibility */
+    [aria-label] {
+      position: relative;
+    }
+    .form-control[aria-invalid="true"] {
+      border-color: var(--danger);
+      box-shadow: 0 0 10px rgba(153, 27, 27, 0.2);
+    }
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      border: 0;
+    }
+    #status[role="alert"] {
+      padding: 1rem;
+      border-radius: 8px;
+      margin-top: var(--spacing-unit);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-12 col-md-8">
+        <div class="card-modern">
+          <div class="header-panel text-center">
+            <img src="./Logo Hifz Dawa Fest.jpg" alt="Logo" height="60" class="mb-2">
+            <h1 class="h3 fw-bold">Judge Panel</h1>
+            <p class="sr-only">Marks Submission Portal</p>
+          </div>
+          <div class="card-body">
+            <section id="loginPanel" aria-label="Judge login panel">
+              <form id="loginForm" class="text-center" autocomplete="off">
+                <div class="mb-4">
+                  <label for="passwordInput" class="form-label">Password</label>
+                  <input type="password" class="form-control" id="passwordInput" required placeholder="Enter your one-time password" aria-required="true" aria-describedby="passwordHelp">
+                  <small id="passwordHelp" class="form-text">Enter your unique one-time password</small>
+                </div>
+                <button type="submit" class="btn btn-modern btn-primary" id="loginBtn">Login</button>
+              </form>
+            </section>
+            <section id="marksPanel" aria-label="Marks submission panel" style="display: none;">
+              <div class="header-panel text-center mb-4">
+                <h2>Program: <span id="progNameDisplay" aria-live="polite"></span></h2>
+              </div>
+              <div class="table-responsive mb-4">
+                <table class="table table-modern" id="marksTable" aria-label="Marks entry table">
+                  <thead>
+                    <tr>
+                      <th scope="col">Code Letter</th>
+                      <th scope="col">Judge 1 Score</th>
+                      <th scope="col">Judge 2 Score</th>
+                      <th scope="col">Judge 3 Score</th>
+                      <th scope="col">Total</th>
+                      <th scope="col">Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody></tbody>
+                </table>
+              </div>
+              <div class="d-flex gap-3 mb-4 flex-column flex-md-row">
+                <button type="button" class="btn btn-modern btn-primary flex-grow-1" id="addRowBtn" aria-label="Add new participant row">Add Row</button>
+                <button type="button" class="btn btn-modern btn-primary flex-grow-1" id="submitMarksBtn" aria-label="Submit marks">Submit Marks</button>
+              </div>
+              <div id="status" role="alert" aria-live="assertive"></div>
+            </section>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-app.js";
+    import { getFirestore, doc, getDoc, setDoc, collection, getDocs } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
+    const firebaseConfig = {
+      apiKey: "AIzaSyDF6KaP2L_3NReD1f0V3OIl9s7zKp-c__s",
+      authDomain: "fest-judges.firebaseapp.com",
+      projectId: "fest-judges",
+      storageBucket: "fest-judges.firebasestorage.app",
+      messagingSenderId: "342640192834",
+      appId: "1:342640192834:web:d6daf54c339b64fbb2ecdb"
+    };
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+    const loginForm = document.getElementById("loginForm");
+    const passwordInput = document.getElementById("passwordInput");
+    const loginPanel = document.getElementById("loginPanel");
+    const marksPanel = document.getElementById("marksPanel");
+    const progNameDisplay = document.getElementById("progNameDisplay");
+    const marksTableBody = document.querySelector("#marksTable tbody");
+    const addRowBtn = document.getElementById("addRowBtn");
+    const submitMarksBtn = document.getElementById("submitMarksBtn");
+    const status = document.getElementById("status");
+    let currentProgram = null;
+    let judgeIndex = -1;
+    let programDocData = null;
+    let judgePhone = null;
+
+    async function findJudgeByPassword(password) {
+      const programsSnapshot = await getDocs(collection(db, "programs"));
+      for (const docSnap of programsSnapshot.docs) {
+        const d = docSnap.data();
+        const judges = d.judges || [];
+        const idx = judges.findIndex(j => j.password === password && !j.submitted);
+        if (idx !== -1) {
+          return { programId: docSnap.id, programData: d, judgeIdx: idx };
+        }
+      }
+      return null;
+    }
+
+    loginForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const password = passwordInput.value.trim();
+      if (!password) {
+        alert("Please enter password");
+        return;
+      }
+      submitMarksBtn.disabled = false;
+      loginForm.querySelector("button").disabled = true;
+      const res = await findJudgeByPassword(password);
+      loginForm.querySelector("button").disabled = false;
+      if (!res) {
+        alert("Invalid or already used password.");
+        return;
+      }
+      currentProgram = res.programId;
+      programDocData = res.programData;
+      judgeIndex = res.judgeIdx;
+      judgePhone = programDocData.judges[judgeIndex].phone;
+      progNameDisplay.textContent = currentProgram;
+      loginPanel.style.display = "none";
+      marksPanel.style.display = "block";
+      status.textContent = "";
+      loadMarksFromFirestore();
+    });
+
+    async function loadMarksFromFirestore() {
+      marksTableBody.innerHTML = "";
+      const marksDocRef = doc(db, `programs/${currentProgram}/marks`, judgePhone);
+      const marksSnap = await getDoc(marksDocRef);
+      let rows = [];
+      if (marksSnap.exists()) {
+        rows = marksSnap.data().rows || [];
+      }
+      if (rows.length === 0) {
+        addTableRow();
+      } else {
+        rows.forEach(row => addTableRow(row));
+      }
+    }
+
+    function addTableRow(rowData = {}) {
+      const tr = document.createElement("tr");
+      const codeTd = document.createElement("td");
+      codeTd.setAttribute("data-label", "Code Letter");
+
+      const codeInput = document.createElement("input");
+      codeInput.type = "text";
+      codeInput.name = "codeLetter";
+      codeInput.required = true;
+      codeInput.autocomplete = "off";
+      codeInput.value = rowData.codeLetter || "";
+
+      // 🔹 Force uppercase automatically
+      codeInput.addEventListener("input", () => {
+        codeInput.value = codeInput.value.toUpperCase();
+      });
+
+      codeTd.appendChild(codeInput);
+      tr.appendChild(codeTd);
+
+      for (let i = 1; i <= 3; i++) {
+        const scoreTd = document.createElement("td");
+        scoreTd.setAttribute("data-label", `Judge ${i} Score`);
+        const scoreInput = document.createElement("input");
+        scoreInput.type = "number";
+        scoreInput.name = "judge" + i;
+        scoreInput.min = 0;
+        scoreInput.required = true;
+        scoreInput.autocomplete = "off";
+        scoreInput.value = rowData["judge" + i] ?? "";
+        scoreInput.addEventListener("input", () => updateTotalCell(tr));
+        scoreTd.appendChild(scoreInput);
+        tr.appendChild(scoreTd);
+      }
+
+      const totalTd = document.createElement("td");
+      totalTd.setAttribute("data-label", "Total");
+      totalTd.textContent = "0";
+      tr.appendChild(totalTd);
+
+      const actionTd = document.createElement("td");
+      actionTd.setAttribute("data-label", "Actions");
+      const delBtn = document.createElement("button");
+      delBtn.type = "button";
+      delBtn.className = "action-btn btn btn-danger btn-sm";
+      delBtn.textContent = "Delete";
+      delBtn.setAttribute("aria-label", "Delete participant row");
+      delBtn.addEventListener("click", () => {
+        tr.remove();
+        if (marksTableBody.children.length === 0) addTableRow();
+      });
+      actionTd.appendChild(delBtn);
+      tr.appendChild(actionTd);
+
+      marksTableBody.appendChild(tr);
+      updateTotalCell(tr);
+    }
+
+    function updateTotalCell(tr) {
+      const scores = tr.querySelectorAll('input[name^="judge"]');
+      let total = 0;
+      scores.forEach(input => {
+        const val = parseFloat(input.value);
+        if (!isNaN(val)) total += val;
+      });
+      const totalTd = tr.children[4];
+      totalTd.textContent = total.toFixed(2);
+    }
+
+    addRowBtn.addEventListener("click", () => addTableRow());
+    submitMarksBtn.addEventListener("click", async () => {
+      if (marksTableBody.children.length === 0) {
+        alert("Please add at least one participant row.");
+        return;
+      }
+      const rowsData = [];
+      for (const row of marksTableBody.children) {
+        const codeLetter = row.querySelector('input[name="codeLetter"]').value.trim();
+        const judge1 = row.querySelector('input[name="judge1"]').value.trim();
+        const judge2 = row.querySelector('input[name="judge2"]').value.trim();
+        const judge3 = row.querySelector('input[name="judge3"]').value.trim();
+        if (!codeLetter) {
+          alert("Code Letter is required in all rows.");
+          return;
+        }
+        rowsData.push({
+          codeLetter,
+          judge1: judge1 ? parseFloat(judge1) : 0,
+          judge2: judge2 ? parseFloat(judge2) : 0,
+          judge3: judge3 ? parseFloat(judge3) : 0,
+          total: (parseFloat(judge1 || 0) + parseFloat(judge2 || 0) + parseFloat(judge3 || 0))
+        });
+      }
+      try {
+        submitMarksBtn.disabled = true;
+        status.textContent = "Submitting marks...";
+        const marksDocRef = doc(db, `programs/${currentProgram}/marks`, judgePhone);
+        await setDoc(marksDocRef, { rows: rowsData });
+        const judges = programDocData.judges || [];
+        if (judgeIndex >= 0) {
+          judges[judgeIndex].submitted = true;
+          const progRef = doc(db, "programs", currentProgram);
+          await setDoc(progRef, { judges }, { merge: true });
+        }
+        status.textContent = "Marks submitted successfully! You are logged out.";
+        setTimeout(() => location.reload(), 2500);
+      } catch (error) {
+        alert("Error submitting marks: " + error.message);
+        status.textContent = "";
+        submitMarksBtn.disabled = false;
+      }
+    });
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
