@@ -244,7 +244,7 @@
               <form id="loginForm" class="text-center" autocomplete="off">
                 <div class="mb-4">
                   <label for="passwordInput" class="form-label">Password</label>
-                  <input type="password" class="form-control" id="passwordInput" inputmode="numeric" required placeholder="Enter your one-time password" aria-required="true" aria-describedby="passwordHelp">
+                  <input type="password" class="form-control" inputmode="numeric" id="passwordInput" required placeholder="Enter your one-time password" aria-required="true" aria-describedby="passwordHelp">
                   <small id="passwordHelp" class="form-text">Enter your unique one-time password</small>
                 </div>
                 <button type="submit" class="btn btn-modern btn-primary" id="loginBtn">Login</button>
@@ -260,9 +260,6 @@
                     <tr>
                       <th scope="col">Code Letter</th>
                       <th scope="col">Judge 1 Score</th>
-                      <th scope="col">Judge 2 Score</th>
-                      <th scope="col">Judge 3 Score</th>
-                      <th scope="col">Total</th>
                       <th scope="col">Actions</th>
                     </tr>
                   </thead>
@@ -373,7 +370,6 @@
       codeInput.autocomplete = "off";
       codeInput.value = rowData.codeLetter || "";
 
-      // 🔹 Force uppercase automatically
       codeInput.addEventListener("input", () => {
         codeInput.value = codeInput.value.toUpperCase();
       });
@@ -381,25 +377,17 @@
       codeTd.appendChild(codeInput);
       tr.appendChild(codeTd);
 
-      for (let i = 1; i <= 3; i++) {
-        const scoreTd = document.createElement("td");
-        scoreTd.setAttribute("data-label", `Judge ${i} Score`);
-        const scoreInput = document.createElement("input");
-        scoreInput.type = "number";
-        scoreInput.name = "judge" + i;
-        scoreInput.min = 0;
-        scoreInput.required = true;
-        scoreInput.autocomplete = "off";
-        scoreInput.value = rowData["judge" + i] ?? "";
-        scoreInput.addEventListener("input", () => updateTotalCell(tr));
-        scoreTd.appendChild(scoreInput);
-        tr.appendChild(scoreTd);
-      }
-
-      const totalTd = document.createElement("td");
-      totalTd.setAttribute("data-label", "Total");
-      totalTd.textContent = "0";
-      tr.appendChild(totalTd);
+      const scoreTd = document.createElement("td");
+      scoreTd.setAttribute("data-label", "Judge 1 Score");
+      const scoreInput = document.createElement("input");
+      scoreInput.type = "number";
+      scoreInput.name = "judge1";
+      scoreInput.min = 0;
+      scoreInput.required = true;
+      scoreInput.autocomplete = "off";
+      scoreInput.value = rowData.judge1 ?? "";
+      scoreTd.appendChild(scoreInput);
+      tr.appendChild(scoreTd);
 
       const actionTd = document.createElement("td");
       actionTd.setAttribute("data-label", "Actions");
@@ -416,18 +404,6 @@
       tr.appendChild(actionTd);
 
       marksTableBody.appendChild(tr);
-      updateTotalCell(tr);
-    }
-
-    function updateTotalCell(tr) {
-      const scores = tr.querySelectorAll('input[name^="judge"]');
-      let total = 0;
-      scores.forEach(input => {
-        const val = parseFloat(input.value);
-        if (!isNaN(val)) total += val;
-      });
-      const totalTd = tr.children[4];
-      totalTd.textContent = total.toFixed(2);
     }
 
     addRowBtn.addEventListener("click", () => addTableRow());
@@ -440,18 +416,13 @@
       for (const row of marksTableBody.children) {
         const codeLetter = row.querySelector('input[name="codeLetter"]').value.trim();
         const judge1 = row.querySelector('input[name="judge1"]').value.trim();
-        const judge2 = row.querySelector('input[name="judge2"]').value.trim();
-        const judge3 = row.querySelector('input[name="judge3"]').value.trim();
         if (!codeLetter) {
           alert("Code Letter is required in all rows.");
           return;
         }
         rowsData.push({
           codeLetter,
-          judge1: judge1 ? parseFloat(judge1) : 0,
-          judge2: judge2 ? parseFloat(judge2) : 0,
-          judge3: judge3 ? parseFloat(judge3) : 0,
-          total: (parseFloat(judge1 || 0) + parseFloat(judge2 || 0) + parseFloat(judge3 || 0))
+          judge1: judge1 ? parseFloat(judge1) : 0
         });
       }
       try {
@@ -476,5 +447,4 @@
   </script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
-
 </html>
